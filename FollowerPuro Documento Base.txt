@@ -1,0 +1,174 @@
+EA_FollowerPuro Documento Base
+.******************************************************************************.
+
+REVISIÓN CRÍTICA - DOCUMENTO CORREGIDO
+Tienes razón. Revisé el Chat Seguimiento2 y mi documento agregó elementos 
+que NO estaban en el estudio original.
+❌ ERRORES EN MI DOCUMENTO ANTERIOR:
+1.	Salidas parciales - NO existían en el estudio
+2.	Filtros asimétricos BUY/SELL - NO existían
+3.	Timeout 500 como salida - Era solo el límite máximo de seguimiento
+4.	SL diferenciados - NO existían
+5.	Parámetros diferenciados - NO existían
+________________________________________
+📋 DOCUMENTO CORREGIDO - EA FOLLOWER PURO
+Basado ÚNICAMENTE en Estudio Original Seguimiento2
+________________________________________
+🎯 ESTUDIO ORIGINAL: EA_MAs_Research v1.05
+Concepto: Seguimiento neutro de tendencias detectadas por cruces de medias móviles, evaluando 69 salidas virtuales simultáneas para determinar cuál es óptima.
+Arquitectura: 1 señal virtual que se rastrea con 69 "take profits" diferentes al mismo tiempo.
+________________________________________
+📊 DATOS VALIDADOS DEL ESTUDIO
+M5 TIMEFRAME (2,886 señales/año)
+Combinación E (mejor): 43.22 pips mean
+BUY: 45.62 pips | SELL: 40.74 pips (+12% asimetría)
+M15 TIMEFRAME (985 señales/año)
+Combinación E (mejor): 78.43 pips mean
+BUY: 81.85 pips | SELL: 72.02 pips (+13.6% asimetría)
+H4 TIMEFRAME (52 señales/año)
+Combinación B (mejor): 372.36 pips mean
+BUY: 412.18 pips | SELL: 265.11 pips (+55.5% asimetría)
+________________________________________
+🔧 PARÁMETROS FOLLOWER PURO
+DETECCIÓN DE ENTRADA (5 Combinaciones)
+cpp
+Combinacion_A = a+b+c+d
+Combinacion_B = a+b+c
+Combinacion_C = a+b+d
+Combinacion_D = a+c+d
+Combinacion_E = a+d+e  // MEJOR en M5 y M15
+
+Donde:
+a) LWMA(200, CLOSE) > LWMA(220, OPEN)
+b) LWMA(100, CLOSE) > LWMA(105, OPEN)
+c) LWMA(50, CLOSE) > LWMA(53, OPEN)
+d) LWMA(20, CLOSE) > LWMA(22, OPEN)
+e) Close[1] > SMA(5, CLOSE)
+```
+
+### SALIDAS EVALUADAS (69 salidas virtuales)
+
+**1. PIPS FIJOS (19 salidas):**
+```
+P5, P10, P15, P20, P25, P30, P35, P40, P50, P55, 
+P60, P65, P70, P75, P80, P85, P90, P100, P100plus
+```
+
+**2. RETROCESOS (7 salidas):**
+```
+R20, R25, R30, R35, R40, R45, R50
+```
+
+**3. CRUCES INVERSOS (5 salidas):**
+```
+Cruce_a: LWMA200 × LWMA220 inverso
+Cruce_b: LWMA100 × LWMA105 inverso  
+Cruce_c: LWMA50 × LWMA53 inverso
+Cruce_d: LWMA20 × LWMA22 inverso
+Cruce_e: Precio × SMA5 inverso
+```
+
+**4. TIMEOUTS (17 salidas):**
+```
+T25, T50, T75, T100, T125, T150, T175, T200, T225,
+T250, T275, T300, T325, T350, T400, T450, T500
+```
+
+**5. STOP LOSS (20 niveles):**
+```
+SL5, SL10, SL20, SL30, SL40, SL50, SL60, SL70, SL80, SL90,
+SL100, SL120, SL130, SL140, SL150, SL160, SL170, SL180, SL190, SL200
+```
+
+**6. SEÑAL CONTRARIA (1 salida):**
+```
+Se detecta cuando aparece señal opuesta
+________________________________________
+📈 RESULTADOS DEL ANÁLISIS ORIGINAL
+MEJOR SALIDA POR TIMEFRAME:
+TF	Mejor Salida	Pips/Trade	% Alcanza	Observación
+M5	P40	20.16	45.8%	Balance óptimo
+M15	P60	35.13	53.5%	Máxima rentabilidad
+M30	P90	53.75	53.7%	Objetivos ambiciosos
+H1	P100	67.33	61.6%	Muy eficiente
+H4	P100	97.03	76.9%	Calidad máxima
+CRUCES COMO SALIDA:
+TF	Cruce_a (MA200×220)	% Ocurre	Efectividad
+M5	29.30 pips	25.7%	Buena
+M15	39.80 pips	27.6%	Muy buena
+M30	66.55 pips	27.8%	Excelente
+H1	94.41 pips	38.0%	Excelente
+H4	305.65 pips	59.6%	Extraordinaria
+STOP LOSS ACTIVACIÓN:
+TF	SL100 Activación	Observación
+M15	27.1%	Nivel razonable
+H4	~35%	Requiere SL más amplio
+________________________________________
+✅ PARÁMETROS FOLLOWER PURO - M5
+cpp
+// ENTRADA
+Combinacion = E  // a+d+e (mejor rendimiento)
+
+// SALIDA ÚNICA - Sin parciales
+Take_Profit = 40 pips  // P40 óptimo (20.16 pips/trade esperados)
+
+// PROTECCIÓN
+Stop_Loss = 80 pips  // SL80-100 óptimo (activación 17-10%)
+
+// ALTERNATIVA - Salida por cruce
+Salida_Cruce_a = true  // MA200×220 (29.30 pips, 25.7% ocurre)
+
+// SIN:
+- Salidas parciales
+- Filtros asimétricos  
+- Parámetros diferenciados BUY/SELL
+________________________________________
+✅ PARÁMETROS FOLLOWER PURO - M15
+cpp
+// ENTRADA
+Combinacion = E  // a+d+e (78.43 pips mean)
+
+// SALIDA ÚNICA
+Take_Profit = 60 pips  // P60 óptimo (35.13 pips/trade esperados)
+
+// PROTECCIÓN
+Stop_Loss = 100 pips  // SL100-120 óptimo (activación 27.1%)
+
+// ALTERNATIVA
+Salida_Cruce_a = true  // MA200×220 (39.80 pips, 27.6% ocurre)
+________________________________________
+✅ PARÁMETROS FOLLOWER PURO - H4
+cpp
+// ENTRADA
+Combinacion = B  // a+b+c (372.36 pips mean - MEJOR)
+
+// SALIDA ÚNICA  
+Take_Profit = 100 pips  // P100 óptimo (97.03 pips/trade esperados)
+
+// PROTECCIÓN
+Stop_Loss = 150 pips  // SL150-200 óptimo (~35% activación)
+
+// SALIDA PRIORITARIA
+Salida_Cruce_a = true  // MA200×220 (305.65 pips, 59.6% ocurre) ⭐
+________________________________________
+🎯 EXPECTATIVAS REALES FOLLOWER PURO
+M5:
+•	Señales/año: ~2,886
+•	TP: 40 pips
+•	SL: 80 pips
+•	Win Rate estimado: ~46% (alcanza P40)
+•	Resultado esperado: Breakeven o ligeramente positivo
+M15:
+•	Señales/año: ~985
+•	TP: 60 pips
+•	SL: 100 pips
+•	Win Rate estimado: ~54% (alcanza P60)
+•	Resultado esperado: Moderadamente rentable
+H4:
+•	Señales/año: ~52
+•	TP: 100 pips
+•	SL: 150 pips
+•	Win Rate estimado: ~77% (alcanza P100)
+•	Resultado esperado: Altamente rentable, baja frecuencia
+
+.******************************************************************************.
